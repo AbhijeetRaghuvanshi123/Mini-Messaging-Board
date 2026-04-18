@@ -41,7 +41,7 @@ A simple message board web application built with **Node.js**, **Express**, and 
 ├── public/
 │ └── styles.css
 └── package.json
-```markdown
+```
 
 ---
 

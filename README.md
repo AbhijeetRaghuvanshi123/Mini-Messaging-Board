@@ -23,6 +23,7 @@ A simple message board web application built with **Node.js**, **Express**, and 
 
 ---
 
+```markdown
 ## 📁 Project Structure
 │
 ├── app.js

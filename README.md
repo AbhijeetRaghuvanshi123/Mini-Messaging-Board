@@ -23,7 +23,9 @@ A simple message board web application built with **Node.js**, **Express**, and 
 
 ---
 
+
 ## 📁 Project Structure
+```markdown
 │
 ├── app.js
 ├── routes/
@@ -39,7 +41,7 @@ A simple message board web application built with **Node.js**, **Express**, and 
 ├── public/
 │ └── styles.css
 └── package.json
-
+```
 
 ---
 

@@ -13,7 +13,7 @@
         <% messages.forEach(message => { %>
             <div class="card">
                 <div>
-                    <h2>To: <%= message.user %></h2>
+                    <h2>From: <%= message.user %></h2>
                     <h6>Date: <%= message.added %></h6>
                 </div>
                 <button><a href="/view?user=<%= message.user %>">View</a></button>

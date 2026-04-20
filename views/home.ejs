@@ -9,14 +9,13 @@
     <div class="container">
         <h1>📬 Message Dashboard</h1>
         <h1 style="font-size:1.2rem; margin: 0.5rem 0 1rem;">New Messages</h1>
-
         <% messages.forEach(message => { %>
             <div class="card">
                 <div>
-                    <h2>From: <%= message.user %></h2>
+                    <h2>From: <%= message.username %></h2>
                     <h6>Date: <%= message.added %></h6>
                 </div>
-                <button><a href="/view?user=<%= message.user %>">View</a></button>
+                <button><a href="/view?user=<%= message.username %>">View</a></button>
             </div>
         <% }) %>
 

@@ -110,3 +110,74 @@ input[type="text"]:focus {
     font-size: 1.05rem;
     color: #444;
 }
+
+.back-link {
+    display: inline-block;
+    margin-bottom: 1.5rem;
+    color: #c0714f;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: color 0.2s;
+}
+
+.back-link:hover {
+    color: #a0573a;
+}
+
+.detail-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.avatar {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background-color: #c0714f;
+    color: white;
+    font-size: 1.3rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.detail-header h1 {
+    font-size: 1.4rem;
+    margin-bottom: 0.2rem;
+}
+
+.message-count {
+    font-size: 0.85rem;
+    color: #888;
+}
+
+.messages-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.message-card {
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    border-left: 3px solid #c0714f;
+}
+
+.message-text {
+    font-size: 1rem;
+    color: #444;
+    line-height: 1.6;
+    margin-bottom: 0.5rem;
+}
+
+.message-time {
+    font-size: 0.8rem;
+    color: #aaa;
+    display: block;
+}

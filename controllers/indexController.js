@@ -1,20 +1,22 @@
-import { getMessages, addMessage, getMessage } from "../models/messagesDB.js";
+import db from '../models/queries.js';
 
 const home = async (req, res) => {
-    res.render('home', { title: 'Mini Messageboard' ,messages : await getMessages()})
+    const rows = await db.getMessages();
+    res.render('home', { title: 'Mini Messageboard' ,messages : Object.values(rows.rows)})
 }
 
 const newMessage = async (req , res) => {
-    res.render('newMessage', );
+    res.render('newMessage');
 }
 
-const addNewMessage = (req , res ) => {
-    addMessage(req.body);
+const addNewMessage = async (req , res ) => {
+    await db.addMessage(req.body);
     res.redirect('/');
 }
 
 const viewMessage = async (req , res) => {
-    res.render('viewMessage', { message: getMessage(req.query.user)});
+    const row = await db.getMessage(req.query.user);
+    res.render('viewMessage', { message: row});
 }
 
 export { home , newMessage, addNewMessage, viewMessage};

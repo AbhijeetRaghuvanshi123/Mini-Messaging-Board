@@ -1,140 +1,174 @@
-# 📬 Mini Messageboard
+# 📬 Mini Messaging Board
 
-A simple message board web application built with **Node.js**, **Express**, and **EJS**. Users can view messages, add new ones, and see individual message details.
+A server-rendered message board built with **Node.js**, **Express**, **EJS**, and **PostgreSQL**. Users can post messages, browse all senders on the dashboard, and view the full message history for any user.
+
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat&logo=nodedotjs&logoColor=white)
+![Express](https://img.shields.io/badge/Express.js-000000?style=flat&logo=express&logoColor=white)
+![EJS](https://img.shields.io/badge/EJS-B4CA65?style=flat&logo=ejs&logoColor=black)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat&logo=postgresql&logoColor=white)
+![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)
 
 ---
 
 ## 🚀 Features
 
-- View all messages on the homepage
-- Add a new message via a form
-- View a specific message by user
-- Clean and minimal UI with EJS templates
-- In-memory data storage (no database required)
+- 📋 Message dashboard showing the latest message from each unique user
+- ✍️ Submit new messages via a form
+- 👤 View the **full message history** for any user on a dedicated detail page
+- 🗄️ Persistent storage with **PostgreSQL** (messages survive server restarts)
+- 🔒 Environment-based database config via `.env`
+- 🌐 SSL-enabled database connection (production-ready)
 
 ---
 
 ## 🛠️ Tech Stack
 
-- Node.js
-- Express.js
-- EJS (Embedded JavaScript Templates)
-- HTML/CSS
+| Layer        | Technology                          |
+|--------------|-------------------------------------|
+| Runtime      | Node.js (ES Modules)                |
+| Framework    | Express.js v5                       |
+| Templating   | EJS v5                              |
+| Database     | PostgreSQL (`pg` / `node-postgres`) |
+| Config       | dotenv                              |
+| Architecture | MVC (Model-View-Controller)         |
 
 ---
 
-
 ## 📁 Project Structure
-```markdown
+
+```
+Mini-Messaging-Board/
 │
-├── app.js
+├── app.js                          # Entry point — Express app setup
+│
+├── config/
+│   └── env.js                      # Loads .env via dotenv
+│
 ├── routes/
-│ └── indexRouter.js
+│   └── indexRouter.js              # Route definitions
+│
 ├── controllers/
-│ └── indexController.js
+│   └── indexController.js          # Request handlers
+│
 ├── models/
-│ └── messagesDB.js
+│   ├── pool.js                     # PostgreSQL connection pool
+│   ├── queries.js                  # DB query functions
+│   └── populateDb.js               # DB seed script
+│
 ├── views/
-│ ├── home.ejs
-│ ├── newMessage.ejs
-│ └── viewMessage.ejs
+│   ├── home.ejs                    # Dashboard — latest message per user
+│   ├── newMessage.ejs              # New message form
+│   └── viewMessage.ejs             # Full message history for a user
+│
 ├── public/
-│ └── styles.css
-└── package.json
+│   └── styles.css                  # Global stylesheet
+│
+├── package.json
+└── .gitignore
 ```
 
 ---
 
-## 🧩 How It Works
+## ⚙️ Getting Started
 
-### Server Setup (`app.js`)
-- Configures Express app
-- Sets EJS as the view engine
-- Serves static files from `/public`
-- Uses router for handling routes
+### Prerequisites
 
-### Routes (`routes/indexRouter.js`)
-- `/` → Homepage (list all messages)
-- `/new` → New message form (GET)
-- `/new` → Submit new message (POST)
-- `/view?user=<username>` → View a specific message
+- [Node.js](https://nodejs.org/) v18+
+- A running PostgreSQL instance (local or hosted, e.g. [Neon](https://neon.tech), [Supabase](https://supabase.com))
 
-### Controllers (`controllers/indexController.js`)
-- `home` → Renders homepage with messages
-- `newMessage` → Renders message form
-- `addNewMessage` → Handles form submission
-- `viewMessage` → Displays a selected message
+### Installation
 
-### Data Layer (`models/messagesDB.js`)
-- Stores messages in an array
-- Functions:
-- `getMessages()` → Fetch all messages
-- `addMessage(message)` → Add a new message
-- `getMessage(user)` → Get message by username
+```bash
+# 1. Clone the repository
+git clone https://github.com/AbhijeetRaghuvanshi123/Mini-Messaging-Board.git
 
----
+# 2. Navigate into the project directory
+cd Mini-Messaging-Board
 
-## 🖥️ Views
+# 3. Install dependencies
+npm install
+```
 
-### 🏠 Home (`home.ejs`)
-- Displays all messages in a card layout
-- Shows:
-- Receiver name
-- Date
-- Includes:
-- "View" button → opens message detail
-- "+ New Message" button → navigates to form
+### Environment Setup
 
----
+Create a `.env` file in the project root:
 
-### ✉️ New Message (`newMessage.ejs`)
-- Form to create a new message
-- Fields:
-- **Receiver Name** (`user`)
-- **Message Text** (`text`)
-- Submits via `POST /new`
+```env
+DATABASE_URL=postgresql://<user>:<password>@<host>/<dbname>?sslmode=require
+```
+
+### Seed the Database
+
+Run the seed script once to create the `messages` table and insert sample data:
+
+```bash
+node models/populateDb.js
+```
+
+### Start the Server
+
+```bash
+node app.js
+```
+
+Open your browser at **http://localhost:3000**
 
 ---
 
-### 📩 Message Detail (`viewMessage.ejs`)
-- Displays a single message
-- Shows:
-- Name
-- Message text
-- Date timestamp
-- Includes a **Back** button to return to homepage
+## 🗺️ Routes
+
+| Method | Path              | Description                              |
+|--------|-------------------|------------------------------------------|
+| GET    | `/`               | Dashboard — latest message per user      |
+| GET    | `/new`            | Render the new message form              |
+| POST   | `/new`            | Submit a new message                     |
+| GET    | `/view?user=<n>`  | Full message history for a specific user |
 
 ---
 
-## ⚠️ Limitations
+## 🗄️ Database
 
-- Messages are stored in memory (lost on server restart)
-- No form validation (empty inputs possible)
-- No authentication system
-- Messages identified only by username (can cause duplicates)
+### Schema
+
+```sql
+CREATE TABLE messages (
+    text      TEXT,
+    username  TEXT,
+    added     TIMESTAMPTZ
+);
+```
+
+### Query Logic (`models/queries.js`)
+
+| Function | Description |
+|---|---|
+| `getMessages()` | Fetches the latest message per unique user (`DISTINCT ON`) |
+| `addMessage(message)` | Inserts a new message with a server-side timestamp |
+| `getMessage(user)` | Returns all messages from a specific user |
+
+The connection pool (`models/pool.js`) reads `DATABASE_URL` from the environment and enables SSL for hosted database compatibility.
 
 ---
 
-## 💡 Future Improvements
+## 🖼️ Views
 
-- Add database (MongoDB / PostgreSQL)
-- Add validation and error handling
-- Implement authentication
-- Allow multiple messages per user
-- Add edit/delete functionality
-- Improve UI/UX
+**Home (`home.ejs`)** — Dashboard showing one card per unique sender with their username, latest date, and a View button.
+
+**New Message (`newMessage.ejs`)** — Form with **Receiver Name** and **Message Text** fields, submitting via `POST /new`.
+
+**Message Detail (`viewMessage.ejs`)** — Shows a user's avatar initial, total message count, and a scrollable list of all their messages with timestamps.
 
 ---
 
 ## 📄 License
 
-This project is open source and available under the MIT License.
+This project is open source and available under the ISC License.
 
 ---
 
 ## ✨ Author
 
-Built as a learning project to practice:
-- Express routing
-- MVC architecture
-- Server-side rendering with EJS
+**Abhijeet Raghuvanshi**  
+Built to practice Express routing, MVC architecture, server-side rendering with EJS, and PostgreSQL integration.
+
+> Feel free to fork, star ⭐, and contribute!

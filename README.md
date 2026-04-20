@@ -10,6 +10,22 @@ A server-rendered message board built with **Node.js**, **Express**, **EJS**, an
 
 ---
 
+## 🚀 Live Demo
+
+🌐 Experience the project live here:  
+
+👉 **[Mini Messaging Board Live](https://mini-messaging-board-u5w7.onrender.com/)**  
+
+---
+
+✨ Features you can try:
+- 📝 Add new messages in real-time
+- 📄 View all posted messages
+- 🔍 Open message details
+- ⚡ Fully deployed backend + database integration
+
+---
+
 ## 🚀 Features
 
 - 📋 Message dashboard showing the latest message from each unique user

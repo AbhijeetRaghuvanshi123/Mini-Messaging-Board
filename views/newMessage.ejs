@@ -8,6 +8,7 @@
 <body>
     <div class="container">
         <h1 style="margin-bottom: 1.5rem;">✉️ New Message</h1>
+        <%- include("partials/errors.ejs") %>
         <form method="POST" action="/new">
             <label for="author-name">Sender Name</label>
             <input type="text" name="user" id="author-name" placeholder="Enter receiver's name">
